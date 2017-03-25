@@ -1,3 +1,6 @@
+/**
+ * Created by dileepkumar on 3/25/17.
+ */
 function Node(data) {
 	this.data = data;
 	this.next = null;
@@ -29,6 +32,33 @@ singleLinkedList.prototype.add = function (data) {
 
 }
 
+singleLinkedList.prototype.pushAtFront = function (data) {
+	var node = new Node(data);
+
+	if(this.head === null)
+		this.head = node;
+
+	let currentNode = this.head;
+	node.next = currentNode;
+	this.head = node;
+}
+
+singleLinkedList.prototype.popFromFront = function () {
+	this.head = this.head.next;
+}
+
+singleLinkedList.prototype.popFromEnd = function () {
+	this.remove(this._length - 1);
+}
+
+singleLinkedList.prototype.front = function () {
+	return this.head;
+}
+
+singleLinkedList.prototype.back = function () {
+	return this.find(this._length - 1);
+}
+
 singleLinkedList.prototype.find = function (pos) {
 	let count = 0;
 	let currentNode = this.head;
@@ -41,7 +71,7 @@ singleLinkedList.prototype.find = function (pos) {
 		currentNode =currentNode.next;
 		count++;
 	}
-
+	console.log(currentNode);
 	return currentNode;
 }
 
@@ -51,6 +81,26 @@ singleLinkedList.prototype.size = function () {
 
 singleLinkedList.prototype.isEmpty = function () {
 	return this.head === null;
+}
+
+singleLinkedList.prototype.insertAt = function (pos,data) {
+	const length = this._length;
+	let currentNode = this.head;
+	let count = 0;
+
+	let node = new Node(data);
+
+	if(length === 0 || pos < 0 || pos > length)
+		return 'not valid pos';
+	while (count < pos) {
+		if(count === pos -1) {
+			node.next = currentNode.next;
+			currentNode.next = node;
+			this._length++;
+		}
+		currentNode = currentNode.next;
+		count ++
+	}
 }
 
 singleLinkedList.prototype.remove = function (pos) {
