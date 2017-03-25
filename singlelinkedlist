@@ -1,0 +1,99 @@
+function Node(data) {
+	this.data = data;
+	this.next = null;
+}
+
+function singleLinkedList() {
+	this._length =0;
+	this.head = null;
+}
+
+singleLinkedList.prototype.add = function (data) {
+	var node = new Node(data);
+	var currentNode = this.head;
+
+	if(!currentNode) {
+		this.head = node;
+		this._length++;
+
+		return node;
+	}
+	while (currentNode.next) {
+		currentNode = currentNode.next;
+	}
+
+	currentNode.next = node;
+
+	this._length++;
+	return node;
+
+}
+
+singleLinkedList.prototype.find = function (pos) {
+	let count = 0;
+	let currentNode = this.head;
+	const length = this._length;
+
+	if(length === 0 || pos < 0 || pos > length)
+		return 'not valid pos';
+
+	while (count < pos) {
+		currentNode =currentNode.next;
+		count++;
+	}
+
+	return currentNode;
+}
+
+singleLinkedList.prototype.size = function () {
+	return this._length;
+}
+
+singleLinkedList.prototype.isEmpty = function () {
+	return this.head === null;
+}
+
+singleLinkedList.prototype.remove = function (pos) {
+
+	let count = 0;
+	let length = this._length;
+	let currentNode = this.head;
+	let beforeNode = null ;
+	let afterNode =null ;
+	let nodeToDelete = null;
+
+	if(length === 0 || pos < 0 || pos > length -1)
+	return 'not valid pos';
+
+	if(pos === 0) {
+		this.head = currentNode.next;
+		currentNode = null;
+		this._length--;
+		return;
+	}
+	while (count < pos) {
+		beforeNode = currentNode;
+		nodeToDelete = currentNode.next;
+		currentNode = currentNode.next;
+		count++;
+	}
+	afterNode = nodeToDelete.next;
+	beforeNode.next = afterNode;
+	nodeToDelete = null;
+	this._length--;
+}
+
+singleLinkedList.prototype.reverse =function () {
+
+	let current = this.head;
+	let next = null;
+	let previous = null;
+
+	while (current !== null) {
+		next = current.next;
+		current.next = previous;
+		previous = current;
+		current = next;
+	}
+	this.head = previous;
+}
