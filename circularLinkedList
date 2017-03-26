@@ -1,0 +1,169 @@
+/**
+ * Created by dileepkumar on 3/25/17.
+ */
+function Node(data) {
+	this.data = data;
+	this.next = null;
+}
+
+function circularLinkedinList() {
+	this._length =0;
+	this.head = null;
+	this.tail = null;
+}
+
+circularLinkedinList.prototype.add = function (data) {
+	var node = new Node(data);
+	var currentNode = this.head;
+
+	if(!currentNode) {
+		this.head = node;
+		this._length++;
+		this.tail = node;
+		node.next = this.head;
+
+		return node;
+	}
+
+	this.tail.next = node;
+	this.tail = node;
+	this.tail.next = this.head;
+	this._length++;
+
+	return node;
+
+}
+
+circularLinkedinList.prototype.pushAtFront = function (data) {
+	var node = new Node(data);
+
+	if(!this.head) {
+		this.head = node;
+		this.tail = node;
+		this.tail.next = this.head;
+		return;
+	}
+
+	node.next = this.head;
+	this.head = node;
+	this.tail.next = this.head;
+}
+
+circularLinkedinList.prototype.popFromFront = function () {
+
+	if(!this.head || this._length === 1) {
+		this.head = null;
+		this.tail = null;
+		this._length--;
+	} else {
+		this.head = this.head.next;
+		this.tail.next = this.head;
+		this._length--;
+	}
+}
+
+circularLinkedinList.prototype.popFromEnd = function () {
+	this.remove(this._length - 1);
+}
+
+circularLinkedinList.prototype.front = function () {
+	return this.head;
+}
+
+circularLinkedinList.prototype.back = function () {
+	return this.find(this._length - 1);
+}
+
+circularLinkedinList.prototype.find = function (pos) {
+	let count = 0;
+	let currentNode = this.head;
+	const length = this._length;
+
+	if(length === 0 || pos < 0 || pos > length)
+		return 'not valid pos';
+
+	while (count < pos) {
+		currentNode =currentNode.next;
+		count++;
+	}
+	console.log(currentNode);
+	return currentNode;
+}
+
+circularLinkedinList.prototype.size = function () {
+	return this._length;
+}
+
+circularLinkedinList.prototype.isEmpty = function () {
+	return this.head === null;
+}
+
+circularLinkedinList.prototype.insertAt = function (pos,data) {
+	const length = this._length;
+	let currentNode = this.head;
+	let count = 0;
+
+	let node = new Node(data);
+
+	if(length === 0 || pos < 0 || pos > length)
+		return 'not valid pos';
+	while (count < pos) {
+		if(count === pos -1) {
+			node.next = currentNode.next;
+			currentNode.next = node;
+			this._length++;
+		}
+		currentNode = currentNode.next;
+		count ++
+	}
+}
+
+circularLinkedinList.prototype.remove = function (pos) {
+
+	let count = 0;
+	let length = this._length;
+	let currentNode = this.head;
+	let beforeNode = null ;
+	let afterNode =null ;
+	let nodeToDelete = null;
+
+	if(length === 0 || pos < 0 || pos > length -1)
+	return 'not valid pos';
+
+	if(pos === 0) {
+		this.popFromFront();
+		return;
+	}
+
+	while (count < pos) {
+		beforeNode = currentNode;
+		nodeToDelete = currentNode.next;
+		currentNode = currentNode.next;
+		count++;
+	}
+	if(pos === length - 1) {
+		afterNode = this.head;
+		this.tail = afterNode;
+	} else {
+		afterNode = nodeToDelete.next;
+	}
+	beforeNode.next = afterNode;
+	nodeToDelete = null;
+
+	this._length--;
+}
+
+circularLinkedinList.prototype.reverse =function () {
+
+	let current = this.head;
+	let next = null;
+	let previous = null;
+
+	while (current !== null) {
+		next = current.next;
+		current.next = previous;
+		previous = current;
+		current = next;
+	}
+	this.head = previous;
+}
