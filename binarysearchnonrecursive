@@ -1,0 +1,22 @@
+/**
+ * Created by dileepkumar on 4/4/17.
+ */
+
+function binarySearch(args,elemToBeFound) {
+
+	let start = 0 ,end = args.length , target;
+
+	while(true) {
+		target = ((start + end) >> 1);
+		if ((target === end || target === start) && args[target] !== elemToBeFound) {
+			return -1;
+		}
+		if (args[target] > elemToBeFound) {
+			end = target;
+		} else if (args[target] < elemToBeFound) {
+			start = target;
+		} else {
+			return target;
+		}
+	}
+}
