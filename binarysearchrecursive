@@ -1,0 +1,18 @@
+/**
+ * Created by dileepkumar on 4/4/17.
+ */
+
+function binarySearch(args,elemToBeFound,left, right) {
+
+	if(left > right)
+		return -1;
+
+	let median = Math.floor((right + left)/2) ;
+
+	if(args[median] === elemToBeFound)
+		return median;
+	else if(args[median] > elemToBeFound)
+		return binarySearch(args,elemToBeFound,left,median-1)
+	else
+		return binarySearch(args,elemToBeFound,median+1,right);
+}
